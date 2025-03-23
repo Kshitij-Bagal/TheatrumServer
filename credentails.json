@@ -1,0 +1,25 @@
+[{"web":{
+    "client_id":"595025169209-shjgtpgbmgeij6j9nd6vdfm3arn6a6at.apps.googleusercontent.com",
+    "project_id":"theatrum-449707",
+    "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+    "token_uri":"https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret":"process.env.GOOGLE_CLIENT_SECRET",
+    "javascript_origins":["https://localhost:8000"]
+    }
+},
+{
+    "type": "service_account",
+    "project_id": "theatrum-449707",
+    "private_key_id": "da559250b4e823e45e98838b67167300946629c2",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDOE1UJ678XPze9\npRBPyt4eF3tOn2dZyIhpnh5l1IAxD+zBH8iP4hmJWut0hGVB931j1oQLYjffH9d7\npYNM0geXmS9pXn60tlE+q0MY7aIB0O0sJ32zI0SmhOFAp/HznlcOurKdYGXJzIvw\nKzrQXPdMx5HnaTl/X4m8Rjhfz56E+nRw0PsORiIMVaq/rSihH9hvG22GfAHno8zd\nNi3Zay/Er0k6GW1EAeHOuPQIbQr+xWtdoY0MTTr43uCkdk/kI8Ts6FlnJ46HXEu8\nVx0rmg3QFsIBCC4DQyqTZScm3hYum02zKMiGql8x10wWG5UITWWzq5oX6a0P7e1C\nd+OJ7dgDAgMBAAECggEAJLtCaaHJLloY0+dTmH1nCQMTegiksdayJe1GqsztSpF1\nmFjTdX4OIjMADAU7TT5RbdXDNIo9vjodPQ9b73nyW320+zmaKRjkM2DwdUWKHnvA\ngqHJYIBVUL8XrWAiGtPq3Ze+lZmkmwsoGFeERLaFZ/ycj5xsYL1FPjdf/gfyT+5I\ngPVR+w8kYDvb8fBbSzIpUdteK9Jo3wkhGe/ZzvCjKK+GPi0XiVLkQyK5BlRU5DuQ\n+UqF+Ddfj8pM2xbrtb+obAAF4Ui7WugesFL//myNpHVfXs2yk5apyBX9XVre36J5\nySX1idEWxJWLf28l7ResHulDW/+5kB0AxHGZwYbAwQKBgQD0PTbnHaMW7+5qEAhU\nMd+ymaYpPBy0FY/NjHzSuSZO8BrLqBLIL/DibFucpAIi88Fj40dkxayTy1h5/4yS\n9M4eRtQ/fZGqCUMk00eYY+QAH45BMq+mAqz0ZFBwlfkba1JTkLgu7vOFmpeMSSDR\nEChlp31GRSsnfckyZZuMcLFoQQKBgQDX/6rM5OuunEh66GALZW8DPZgRMQlqNnLi\n4RF1tqlxqNVtG5yl98D5Ha7wNx9ZgaoYtMyt61J55drkGVdiFSQNuPLTcCQg9sYR\n9fyAHSgbzXXvFuIKHcW0TJr8xiomMr9+wBoWISa+/kDrfRtu0DaX33GtX4NqaSk2\n03kYA3PPQwKBgF7vVGHtcTE/PcrYRISFhlAjzSSGCxosr2LUUsiN00gnqCK1R+es\nStOYDtwKHBJ98RPkiiGvfG9OQSvam0ecBGpcWa/8HRyc0Q6FWXTwjvVFTsQk8YVz\n0MqGG4ZHpTZ1NuDohc8oblvmRTXwTuM0hp9MxTMFO8rz57rBJ/8k5rCBAoGBAIor\nx1PIgKcy2/6blYzUtx3okdU1fCNQb0+I0AVv8pZ9fQGNrzhP80aoYVbSvCAinO+v\nAFuk9B58Ffjh6Q8aHPUWQWdWDhZ0JaIpq/s8K4MVfIKULcZw4x6B/ocCMMY8oljv\nhABx9noo5Nh/MERDtxiR3AMe3U79tFqZDpZ45uVHAoGBAI4ubMHkNVBUVSqK04oE\nYL2OB9eBP+gRSCUNAzfvvr0zPa9HM4OeyJA3Z+Mok1RCoW0H+UyZssmMoZYBFFnM\n/1k8RFvpXZ09zRFb4cFxrrtG4rKjgpXBonhCnJYVWcYTm4xJGuTDndrCTwaLTODu\nBEXJpz0ezNsW9DuK8xU8TG0J\n-----END PRIVATE KEY-----\n",
+    "client_email": "theatrum@theatrum-449707.iam.gserviceaccount.com",
+    "client_id": "111331370921985537569",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/theatrum%40theatrum-449707.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
+]
+
