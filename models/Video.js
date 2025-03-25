@@ -30,10 +30,26 @@ const videoSchema = new mongoose.Schema({
         required: true
     },
     comments: [{
+        _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // <-- Explicitly define _id
         userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         username: { type: String },
         text: { type: String },
-        timestamp: { type: Date, default: Date.now }
+        timestamp: { type: Date, default: Date.now },
+        replies: [{
+            _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // <-- Replies also get _id
+            userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            username: { type: String },
+            text: { type: String },
+            timestamp: { type: Date, default: Date.now },
+            replies: [{
+                _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // <-- Replies also get _id
+                userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+                username: { type: String },
+                text: { type: String },
+                timestamp: { type: Date, default: Date.now },
+                replies:[]
+            }]
+        }]
     }],
     metadata: {
         duration: { type: Number },

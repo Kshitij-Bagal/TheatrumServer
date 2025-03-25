@@ -75,27 +75,37 @@ app.get("/stream-video/:fileName", async (req, res) => {
     const fileName = req.params.fileName;
     const range = req.headers.range;
 
-    if (!range) {
-        return res.status(416).send("Requires Range header");
-    }
-
     try {
+        // Retrieve fileId from Google Drive based on file name
         const fileId = await getFileIdByName(auth, fileName);
         if (!fileId) {
             return res.status(404).json({ error: "File not found" });
         }
 
-        // Get file metadata to determine its size
+        if (!range) {
+            console.log("No Range header, sending full file.");
+            
+            // Stream full video
+            const fileStream = await drive.files.get(
+                { fileId, alt: "media" }, 
+                { responseType: "stream" }
+            );
+
+            res.setHeader("Content-Type", "video/mp4");
+            return fileStream.data.pipe(res);
+        }
+
+        // Get file metadata to determine size
         const metadata = await drive.files.get({ fileId, fields: "size" });
         const fileSize = parseInt(metadata.data.size, 10);
 
-        // Parse the Range header
+        // Parse Range header
         const CHUNK_SIZE = 10 ** 6; // 1MB chunks
         const start = Number(range.replace(/\D/g, ""));
         const end = Math.min(start + CHUNK_SIZE, fileSize - 1);
         const contentLength = end - start + 1;
 
-        // Set headers for partial content streaming
+        // Headers for partial content streaming
         const headers = {
             "Content-Range": `bytes ${start}-${end}/${fileSize}`,
             "Accept-Ranges": "bytes",
@@ -105,7 +115,7 @@ app.get("/stream-video/:fileName", async (req, res) => {
 
         res.writeHead(206, headers);
 
-        // Stream only the requested range from Google Drive
+        // Stream only the requested range
         const fileStream = await drive.files.get(
             { fileId, alt: "media" },
             { responseType: "stream", headers: { Range: `bytes=${start}-${end}` } }
@@ -117,7 +127,6 @@ app.get("/stream-video/:fileName", async (req, res) => {
         res.status(500).json({ error: "Failed to stream video" });
     }
 });
-
 
 async function getFileIdByName(auth, fileName) {
     try {

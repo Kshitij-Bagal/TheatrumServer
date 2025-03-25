@@ -172,16 +172,69 @@ router.get('/:id/comments', async (req, res) => {
     }
 });
 
-// Add a comment to a video
+// Add a top-level comment to a video
 router.post('/:id/comment', async (req, res) => {
     const { id } = req.params;
+    const { userId, username, text } = req.body;
+
     try {
-        const video = await Video.findById(id).populate('comments');        
+        const video = await Video.findById(id);
         if (!video) return res.status(404).json({ message: 'Video not found' });
-        video.comments = video.comments || [];
-        video.comments.push(req.body);
+
+        const newComment = {
+            userId,
+            username,
+            text,
+            timestamp: new Date(),
+            replies: [] // Initialize replies array
+        };
+
+        video.comments.push(newComment);
         await video.save();
-        res.json(video.comments);
+
+        res.json({ message: 'Comment added successfully', comments: video.comments });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Recursive function to find and append a reply to the correct comment
+const addReplyRecursive = (comments, parentId, reply) => {
+    for (let comment of comments) {
+        if (comment._id.toString() === parentId) {
+            comment.replies.push(reply);
+            return true;
+        }
+        if (comment.replies.length > 0) {
+            const found = addReplyRecursive(comment.replies, parentId, reply);
+            if (found) return true;
+        }
+    }
+    return false;
+};
+
+// Add a reply to a comment or another reply
+router.post('/:videoId/comment/:commentId/reply', async (req, res) => {
+    const { videoId, commentId } = req.params;
+    const { userId, username, text } = req.body;
+
+    try {
+        const video = await Video.findById(videoId);
+        if (!video) return res.status(404).json({ message: 'Video not found' });
+
+        const reply = {
+            userId,
+            username,
+            text,
+            timestamp: new Date(),
+            replies: [] // Allow further nesting
+        };
+
+        const added = addReplyRecursive(video.comments, commentId, reply);
+        if (!added) return res.status(404).json({ message: 'Parent comment not found' });
+
+        await video.save();
+        res.json({ message: 'Reply added successfully', video });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
