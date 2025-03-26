@@ -117,6 +117,26 @@ router.post('/:id/like',validateUserId, async (req, res) => {
     }
 });
 
+router.post("/:videoId/view", async (req, res) => {
+    const { videoId } = req.params;
+
+    try {
+        // Check if the video exists
+        const video = await Video.findById(videoId);
+        if (!video) {
+            return res.status(404).json({ error: "Video not found" });
+        }
+
+        // Increment the view count
+        await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
+
+        res.status(200).json({ message: "View count updated successfully" });
+    } catch (error) {
+        console.error("Error updating view count:", error);
+        res.status(500).json({ error: "Failed to update view count" });
+    }
+});
+
 
 router.post('/:id/dislike',validateUserId, async (req, res) => {
     const { userId } = req.body;

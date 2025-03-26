@@ -71,41 +71,38 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.get("/stream-video/:fileName", async (req, res) => {
-    const fileName = req.params.fileName;
+app.get("/stream-video/:videoId", async (req, res) => {
+    const videoId = req.params.videoId; // Now using videoId instead of fileName
     const range = req.headers.range;
 
     try {
-        // Retrieve fileId from Google Drive based on file name
-        const fileId = await getFileIdByName(auth, fileName);
+        // Retrieve fileId using videoId
+        const fileId = await getFileIdByName(auth, `${videoId}.mp4`); // Fetch with renamed file
         if (!fileId) {
             return res.status(404).json({ error: "File not found" });
         }
 
         if (!range) {
             console.log("No Range header, sending full file.");
-            
-            // Stream full video
             const fileStream = await drive.files.get(
                 { fileId, alt: "media" }, 
                 { responseType: "stream" }
             );
-
             res.setHeader("Content-Type", "video/mp4");
             return fileStream.data.pipe(res);
         }
 
-        // Get file metadata to determine size
+        // Get file metadata
         const metadata = await drive.files.get({ fileId, fields: "size" });
         const fileSize = parseInt(metadata.data.size, 10);
 
         // Parse Range header
-        const CHUNK_SIZE = 10 ** 6; // 1MB chunks
+        const CHUNK_SIZE = 10 ** 6;
         const start = Number(range.replace(/\D/g, ""));
         const end = Math.min(start + CHUNK_SIZE, fileSize - 1);
         const contentLength = end - start + 1;
 
-        // Headers for partial content streaming
+        // Response headers
         const headers = {
             "Content-Range": `bytes ${start}-${end}/${fileSize}`,
             "Accept-Ranges": "bytes",
@@ -115,7 +112,7 @@ app.get("/stream-video/:fileName", async (req, res) => {
 
         res.writeHead(206, headers);
 
-        // Stream only the requested range
+        // Stream the requested chunk
         const fileStream = await drive.files.get(
             { fileId, alt: "media" },
             { responseType: "stream", headers: { Range: `bytes=${start}-${end}` } }
